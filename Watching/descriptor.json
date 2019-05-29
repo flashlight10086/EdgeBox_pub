@@ -1,0 +1,20 @@
+{
+  "name": "Watching",
+  "type": "flogo:activity",
+  "version": "0.0.1",
+  "title": "Watching Dog",
+  "description": "Watching activity, to find out any person there",
+  "homepage": "https://github.com/project-flogo/tree/master/examples/activity",
+  "settings": [
+
+  ],
+  "input": [
+    
+  ],
+  "output": [
+    {
+      "name": "serial",
+      "type": "string"
+    }
+  ]
+}
