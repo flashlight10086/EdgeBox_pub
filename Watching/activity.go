@@ -2,27 +2,27 @@ package sample
 
 import (
 	"github.com/project-flogo/core/activity"
-	"github.com/project-flogo/core/data/metadata"
+//	"github.com/project-flogo/core/data/metadata"
 )
 
 func init() {
 	_ = activity.Register(&Activity{}) //activity.Register(&Activity{}, New) to create instances using factory method 'New'
 }
 
-var activityMd = activity.ToMetadata(&Settings{}, &Input{}, &Output{})
+var activityMd = activity.ToMetadata(&Output{})
 
 //New optional factory method, should be used if one activity instance per configuration is desired
 func New(ctx activity.InitContext) (activity.Activity, error) {
 
-	s := &Settings{}
-	err := metadata.MapToStruct(ctx.Settings(), s, true)
-	if err != nil {
-		return nil, err
-	}
+//	s := &Settings{}
+//	err := metadata.MapToStruct(ctx.Settings(), s, true)
+//	if err != nil {
+//		return nil, err
+//	}
 
-	ctx.Logger().Debugf("Setting: %s", s.ASetting)
+//	ctx.Logger().Debugf("Setting: %s", s.ASetting)
 
-	act := &Activity{} //add aSetting to instance
+	act := &Activity{} //add aSetting to instance//nothing to add now
 
 	return act, nil
 }
@@ -39,15 +39,16 @@ func (a *Activity) Metadata() *activity.Metadata {
 // Eval implements api.Activity.Eval - Logs the Message
 func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 
-	input := &Input{}
-	err = ctx.GetInputObject(input)
+	//call neural network here
+        ctx.Logger().Debugf("result of picking out a person: %s", "found") //log is also dummy here
+	err = nil //set if neural network go wrong
 	if err != nil {
 		return true, err
 	}
 
-	ctx.Logger().Debugf("Input: %s", input.AnInput)
+	
 
-	output := &Output{AnOutput: input.AnInput}
+	output := &Output{Serial: "1"}//should be serial of the record in the database
 	err = ctx.SetOutputObject(output)
 	if err != nil {
 		return true, err
