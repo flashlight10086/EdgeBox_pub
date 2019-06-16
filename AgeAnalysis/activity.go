@@ -2,6 +2,7 @@ package sample
 
 import (
 	"github.com/project-flogo/core/activity"
+	"fmt"
 //	"github.com/project-flogo/core/data/metadata"
 )
 
@@ -39,7 +40,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	}
 //recognition done here, dummy now
 	ctx.Logger().Debugf("Input serial: %s", input.Serial)
-
+	fmt.Print("Input serial: %s",input.Serial)
 
 	return true, nil
 }
