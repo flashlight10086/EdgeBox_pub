@@ -2,7 +2,7 @@ package sample
 
 import (
 	"github.com/project-flogo/core/activity"
-	"fmt"
+//	"fmt"
 //	"github.com/project-flogo/core/data/metadata"
 )
 
