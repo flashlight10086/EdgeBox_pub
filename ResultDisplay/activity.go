@@ -23,12 +23,13 @@ import (
 )
 
 var activityMd = activity.ToMetadata(&Input{})
-var ageStage [3]string
+//var ageStage [3]string
 var maxValueIndex int
-var age string
+var imgpath string
+var content string
 var window = gocv.NewWindow("Age")
 var textColor = color.RGBA{0, 255, 0, 0}
-var pt = image.Pt(20, 20)
+//var pt = image.Pt(20, 20)
 var left, top, right, bottom int
 
 func init() {
@@ -36,12 +37,12 @@ func init() {
 	//activity.Register(&Activity{}, New) to create instances using factory method 'New'
 	// add by Yongtao
 	// ageStage = [...]string{"0-6", "8-20", "25-32", "38-53", "60-"}
-	ageStage = [...]string{"0-13", "25-40", "60-"}
-	var err error
-	model, err = tf.LoadSavedModel("resource/ageModel2", []string{"serve"}, nil)
-	if err != nil {
-		log.Fatal(err)
-	}
+	//ageStage = [...]string{"0-13", "25-40", "60-"}
+	//var err error
+	//model, err = tf.LoadSavedModel("resource/ageModel2", []string{"serve"}, nil)
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
 }
 
 //New optional factory method, should be used if one activity instance per configuration is desired
@@ -115,11 +116,11 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			}
 
 			rect := image.Rect(left, top, right, bottom)
-			imgFace := img.Region(rect)
-			gocv.IMWrite("resource/temp/tmpAge.jpg", imgFace)
-			imgName := "resource/temp/tmpAge.jpg"
+			//imgFace := img.Region(rect)
+			//gocv.IMWrite("resource/temp/tmpAge.jpg", imgFace)
+			//imgName := "resource/temp/tmpAge.jpg"
 
-			imageFile, err := os.Open(imgName)
+			/*imageFile, err := os.Open(imgName)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -153,19 +154,25 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 				fmt.Printf("\n %c[%d;%d;%dm%s%c[0m\n", 0x1B, 0, 0, 32, age, 0x1B)
 
 				imgFace := gocv.IMRead(imgName, gocv.IMReadColor)
-				gocv.PutText(&imgFace, age, pt, gocv.FontHersheyPlain, 1.2, textColor, 2)
+				gocv.PutText(&imgFace, content, pt, gocv.FontHersheyPlain, 1.2, textColor, 2)
 				window.IMShow(imgFace)
 				window.WaitKey(1)
-			}
-
+			
+			}*/
+			pt = image.Pt(left+20, top+20)
+                        //imgFace := gocv.IMRead(imgName, gocv.IMReadColor)
+			gocv.PutText(&img, content, pt, gocv.FontHersheyPlain, 1.2, textColor, 2)
+			window.IMShow(imgFace)
+			window.WaitKey(1)
+			
 		}
 	}
 
 	// *******************************
 	// fmt.Printf("Input serial: %s\n", input.Serial)
-	fmt.Printf("\n %c[%d;%d;%dmInput serial: %s%c[0m\n", 0x1B, 0, 0, 31, input.Serial, 0x1B)
+	//fmt.Printf("\n %c[%d;%d;%dmInput serial: %s%c[0m\n", 0x1B, 0, 0, 31, input.Serial, 0x1B)
 
-	ctx.Logger().Debugf("Input serial: %s", input.Serial)
+	//ctx.Logger().Debugf("Input serial: %s", input.Serial)
 	// 	ctx.Logger().Debugf("Age: %s", age)
 
 	return true, nil
