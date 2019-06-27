@@ -17,7 +17,7 @@
   ],
   "output": [
     {
-      "name": "age_json",
+      "name": "ageJson",
       "type": "string"
     }
   ]
