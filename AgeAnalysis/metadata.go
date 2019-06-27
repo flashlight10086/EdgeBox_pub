@@ -19,6 +19,21 @@ func (r *Input) ToMap() map[string]interface{} {
 	}
 }
 
+type Output struct {
+	AgeJson string `md:"ageJson"`
+}
+
+func (o *Output) FromMap(values map[string]interface{}) error {
+	strVal, _ := coerce.ToString(values["ageJson"])
+	o.AgeJson = strVal
+	return nil
+}
+
+func (o *Output) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"ageJson": o.AgeJson,
+	}
+}
 
 
 
