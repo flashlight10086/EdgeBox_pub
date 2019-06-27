@@ -80,8 +80,12 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			}
 		]	   
 	}
-	
-	output := &Output{Serial: "1"}//should be serial of the record in the database
+	if jsonString, err := json.Marshal(config); err == nil {
+           fmt.Println("================struct to json str==")
+           fmt.Println(string(jsonString))
+	   output := &Output{Serial: jsonString}
+        }
+	//output := &Output{Serial: "1"}//should be serial of the record in the database
 	err = ctx.SetOutputObject(output)
 	if err != nil {
 		return true, err
