@@ -36,6 +36,19 @@ func (a *Activity) Metadata() *activity.Metadata {
 	return activityMd
 }
 
+//type of json format, including bounding box by form of x1,y1,x2,y2
+type imgJson struct {
+	imgid   int    `json:"imgid"`
+	imgpath string `json:"imgpath"`
+	bbox    []struct {
+		boxid int `json:"boxid"`
+		x1 int `json:"x1"`
+		y1 int `json:"y1"`
+		x2 int `json:"x2"`
+		y2 int `json:"y2"`
+	} `json:"bbox"`
+}
+
 // Eval implements api.Activity.Eval - Logs the Message
 func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 
@@ -45,9 +58,15 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	if err != nil {
 		return true, err
 	}
-
+//dummy json generation here
+	imgId:=215
+	imgPath:="/home/test.jpg/"
+	x1:=1
+	y1:=1
+	x2:=3
+	y2:=3
+	imgjson imgJson
 	
-
 	output := &Output{Serial: "1"}//should be serial of the record in the database
 	err = ctx.SetOutputObject(output)
 	if err != nil {
