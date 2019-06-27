@@ -16,6 +16,9 @@
     }
   ],
   "output": [
-    
+    {
+      "name": "ageJson",
+      "type": "string"
+    }
   ]
 }
