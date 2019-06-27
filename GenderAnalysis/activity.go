@@ -38,7 +38,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		return true, err
 	}
 //recognition done here, dummy now
-	ctx.Logger().Debugf("Input serial: %s", input.Serial)
+	//ctx.Logger().Debugf("Input serial: %s", input.Serial)
         
 	output := &Output{GenderJson: "gender-dummy-json"}
 	err = ctx.SetOutputObject(output)
