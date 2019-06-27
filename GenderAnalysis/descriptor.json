@@ -17,7 +17,7 @@
   ],
   "output": [
     {
-      "name": "GenderJson",
+      "name": "genderJson",
       "type": "string"
     }
   ]
