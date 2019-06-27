@@ -42,7 +42,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	ctx.Logger().Debugf("Input serial: %s", input.Serial)
 	fmt.Print("Input serial: %s",input.Serial)
 	
-        output := &Output{AnOutput: "success"}
+        output := &Output{AgeJson: "success"}
 	err = ctx.SetOutputObject(output)
 	if err != nil {
 		return true, err
