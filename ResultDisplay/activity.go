@@ -13,8 +13,7 @@ import (
 
 	// 	"reflect"
 
-	tf "github.com/tensorflow/tensorflow/tensorflow/go"
-	"github.com/tensorflow/tensorflow/tensorflow/go/op"
+	
 
 	"image"
 	"image/color"
@@ -23,7 +22,6 @@ import (
 	"gocv.io/x/gocv"
 )
 
-var model *tf.SavedModel
 var activityMd = activity.ToMetadata(&Input{})
 var ageStage [3]string
 var maxValueIndex int
