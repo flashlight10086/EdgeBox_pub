@@ -25,9 +25,9 @@ import (
 var activityMd = activity.ToMetadata(&Input{})
 //var ageStage [3]string
 var maxValueIndex int
-var imgpath string
-var content string
-var window = gocv.NewWindow("Age")
+var imgpath string = ""
+var content string = ""
+var window = gocv.NewWindow("Output")
 var textColor = color.RGBA{0, 255, 0, 0}
 //var pt = image.Pt(20, 20)
 var left, top, right, bottom int
@@ -81,6 +81,13 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	// ***************************************
 	if exists(framePath) {
 		for faceIndex := 1; faceIndex < len(faceArr); faceIndex++ {
+			if !(strings.Compare(framePath,imgPath)){
+				imgPath=framePath
+				content=strings.Join(content,",",message)
+			}
+			else{
+				content=message
+			}
 			img := gocv.IMRead(framePath, gocv.IMReadColor)
 			rectString := strings.Replace(faceArr[faceIndex], "(", "", -1)
 			rectString = strings.Replace(rectString, ")", "", -1)
@@ -115,7 +122,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 				bottom = 720
 			}
 
-			rect := image.Rect(left, top, right, bottom)
+			//rect := image.Rect(left, top, right, bottom)
 			//imgFace := img.Region(rect)
 			//gocv.IMWrite("resource/temp/tmpAge.jpg", imgFace)
 			//imgName := "resource/temp/tmpAge.jpg"
@@ -162,7 +169,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			pt = image.Pt(left+20, top+20)
                         //imgFace := gocv.IMRead(imgName, gocv.IMReadColor)
 			gocv.PutText(&img, content, pt, gocv.FontHersheyPlain, 1.2, textColor, 2)
-			window.IMShow(imgFace)
+			window.IMShow(img)
 			window.WaitKey(1)
 			
 		}
