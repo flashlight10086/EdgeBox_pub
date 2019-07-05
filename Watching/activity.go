@@ -2,6 +2,7 @@ package sample
 
 import (
 	"github.com/project-flogo/core/activity"
+	"encoding/json"
 //	"github.com/project-flogo/core/data/metadata"
 )
 
