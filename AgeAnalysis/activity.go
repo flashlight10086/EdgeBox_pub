@@ -2,6 +2,7 @@ package sample
 
 import (
 	"github.com/project-flogo/core/activity"
+	"encoding/json"
 //	"fmt"
 //	"github.com/project-flogo/core/data/metadata"
 )
@@ -24,7 +25,20 @@ func New(ctx activity.InitContext) (activity.Activity, error) {
 // Activity is an sample Activity that can be used as a base to create a custom activity
 type Activity struct {
 }
-
+type Bbox struct {
+		boxid int `json:"boxid"`
+		x1 int `json:"x1"`
+		y1 int `json:"y1"`
+		x2 int `json:"x2"`
+		y2 int `json:"y2"`
+	}
+//json format of person recognition
+type imgJson struct {
+	imgid   int    `json:"imgid"`
+	imgpath string `json:"imgpath"`
+	bboxs    []Bbox `json:"bbox"`
+	result  string `json:"result"`
+}
 // Metadata returns the activity's metadata
 func (a *Activity) Metadata() *activity.Metadata {
 	return activityMd
@@ -61,8 +75,10 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			}
 		]	   
 	}
-        output := &Output{AgeJson: "age-dummy-json"}
-	err = ctx.SetOutputObject(output)
+	if jsonString, err := json.Marshal(config); err == nil {
+		output := &Output{AgeJson: string(jsonString)}
+		err = ctx.SetOutputObject(output)
+	}
 	if err != nil {
 		return true, err
 	}
