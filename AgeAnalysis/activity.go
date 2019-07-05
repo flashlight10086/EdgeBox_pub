@@ -40,8 +40,27 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	}
 //recognition done here, dummy now
 
-	//fmt.Print("Input serial: %s",input.Serial)
-	
+	imgId:=215
+	imgPath:="/home/test.jpg/"
+	Bboxid:=0
+	X1:=1
+	Y1:=1
+	X2:=3
+	Y2:=3
+	imgjson:=imgJson{
+		imgid: imgId
+		imgpath: imgPath
+		bboxs:[
+			Bbox{
+				boxid:Bboxid
+				x1:X1
+				y1:Y1
+				x2:X2
+				y2:Y2
+				result:"dummy-result"
+			}
+		]	   
+	}
         output := &Output{AgeJson: "age-dummy-json"}
 	err = ctx.SetOutputObject(output)
 	if err != nil {
