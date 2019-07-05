@@ -31,13 +31,14 @@ type Bbox struct {
 		y1 int `json:"y1"`
 		x2 int `json:"x2"`
 		y2 int `json:"y2"`
+		result  string `json:"result"`
 	}
 //json format of person recognition
 type imgJson struct {
 	imgid   int    `json:"imgid"`
 	imgpath string `json:"imgpath"`
 	bboxs    []Bbox `json:"bbox"`
-	result  string `json:"result"`
+
 }
 // Metadata returns the activity's metadata
 func (a *Activity) Metadata() *activity.Metadata {
