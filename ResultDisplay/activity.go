@@ -10,7 +10,7 @@ import (
 	"io"
 	"log"
 	"os"
-
+        "string"
 	// 	"reflect"
 
 	
@@ -18,13 +18,12 @@ import (
 	"image"
 	"image/color"
 	"strings"
+	simplejson "github.com/bitly/go-simplejson"
 
 	"gocv.io/x/gocv"
 )
 
 var activityMd = activity.ToMetadata(&Input{})
-//var ageStage [3]string
-var maxValueIndex int
 var imgpath string = ""
 var content string = ""
 var window = gocv.NewWindow("Output")
@@ -34,15 +33,7 @@ var left, top, right, bottom int
 
 func init() {
 	_ = activity.Register(&Activity{})
-	//activity.Register(&Activity{}, New) to create instances using factory method 'New'
-	// add by Yongtao
-	// ageStage = [...]string{"0-6", "8-20", "25-32", "38-53", "60-"}
-	//ageStage = [...]string{"0-13", "25-40", "60-"}
-	//var err error
-	//model, err = tf.LoadSavedModel("resource/ageModel2", []string{"serve"}, nil)
-	//if err != nil {
-	//	log.Fatal(err)
-	//}
+
 }
 
 //New optional factory method, should be used if one activity instance per configuration is desired
@@ -70,12 +61,16 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	if err != nil {
 		return true, err
 	}
-	//recognition done here, dummy now
 
-	// *************************
-	// imgName := "tmpAge.jpg"
 	receiveString := input.Serial
-	faceArr := strings.Split(receiveString, ";")
+	res, err := simplejson.NewJson([]byte(receiveString))
+   
+        if err != nil {
+            fmt.Printf("%v\n", err)
+            return
+        }
+	
+	
 	framePath := faceArr[0]
 
 	// ***************************************
