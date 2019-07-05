@@ -25,6 +25,7 @@ import (
 
 var activityMd = activity.ToMetadata(&Input{})
 var imgpath string = ""
+var imgid
 var content string = ""
 var window = gocv.NewWindow("Output")
 var textColor = color.RGBA{0, 255, 0, 0}
@@ -71,25 +72,27 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
         }
 	
 	
-	framePath := faceArr[0]
-
+	framePath := res.Get("imgpath")
+	imgid_now:=res.Get("imgid")
+	if (imgid_now!=imgid){
+		imgPath=framePath
+		content=message
+		
+	}
+	else{
+		content=strings.Join(content,",",message)
+	}
+	resultArr=res.Get("bbox")
 	// ***************************************
+
 	if exists(framePath) {
-		for faceIndex := 1; faceIndex < len(faceArr); faceIndex++ {
-			if !(strings.Compare(framePath,imgPath)){
-				imgPath=framePath
-				content=strings.Join(content,",",message)
-			}
-			else{
-				content=message
-			}
+		for faceIndex := 1; faceIndex < len(bbox); faceIndex++ {
+
 			img := gocv.IMRead(framePath, gocv.IMReadColor)
 			rectString := strings.Replace(faceArr[faceIndex], "(", "", -1)
 			rectString = strings.Replace(rectString, ")", "", -1)
 			rectString = strings.Replace(rectString, "-", ",", -1)
 			rectArr := strings.Split(rectString, ",")
-			// fmt.Println("***************************************************")
-			// fmt.Println(rectArr)
 			left, err = strconv.Atoi(rectArr[0])
 			if err != nil {
 				return true, err
