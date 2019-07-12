@@ -57,22 +57,22 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 
 	imgId:=215
 	imgPath:="/home/test.jpg/"
-	Bboxid:=0
-	X1:=1
-	Y1:=1
-	X2:=3
-	Y2:=3
+	bboxid:=0
+	x1:=1
+	y1:=1
+	x2:=3
+	y2:=3
 	imgjson:=imgJson{
 		imgid: imgId
 		imgpath: imgPath
 		bboxs:[
 			Bbox{
 				boxid:Bboxid
-				x1:X1
-				y1:Y1
-				x2:X2
-				y2:Y2
-				result:"dummy-result"
+				X1:x1
+				Y1:y1
+				X2:x2
+				Y2:y2
+				Result:"dummy-result"
 			}
 		]	   
 	}
