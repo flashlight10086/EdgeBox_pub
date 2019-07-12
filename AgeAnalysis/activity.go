@@ -26,18 +26,18 @@ func New(ctx activity.InitContext) (activity.Activity, error) {
 type Activity struct {
 }
 type Bbox struct {
-		boxid int `json:"boxid"`
-		x1 int `json:"x1"`
-		y1 int `json:"y1"`
-		x2 int `json:"x2"`
-		y2 int `json:"y2"`
-		result  string `json:"result"`
+		Boxid int `json:"boxid"`
+		X1 int `json:"x1"`
+		Y1 int `json:"y1"`
+		X2 int `json:"x2"`
+		Y2 int `json:"y2"`
+		Result  string `json:"result"`
 	}
 //json format of person recognition
 type imgJson struct {
-	imgid   int    `json:"imgid"`
-	imgpath string `json:"imgpath"`
-	bboxs    []Bbox `json:"bbox"`
+	Imgid   int    `json:"imgid"`
+	Imgpath string `json:"imgpath"`
+	Bboxs    []Bbox `json:"bbox"`
 
 }
 // Metadata returns the activity's metadata
