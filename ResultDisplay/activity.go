@@ -101,7 +101,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			imgFace := gocv.IMRead(imgPath, gocv.IMReadColor)
 			for faceIndex := 1; faceIndex < len(imgjson.Imgjson.Content); faceIndex++ {
 				gocv.Rectangle(&imgFace,image.Pt(imgjson.Imgjson.BBoxes[faceIndex].X1,imgjson.Imgjson.BBoxes[faceIndex].Y1),image.Pt(imgjson.Imgjson.BBoxes[faceIndex].X2,imgjson.Imgjson.BBoxes[faceIndex].Y2),color.RGBA{R: 0, G: 255, B: 0, A: 100}, 1)
-				gocv.PutText(&imgFace, content+","+imgjson.Content[faceIndex], pt, gocv.FontHersheyPlain, 1.2, textColor, 2)
+				gocv.PutText(&imgFace, content+","+imgjson.Content[faceIndex], image.Pt(imgjson.Imgjson.BBoxes[faceIndex].X1,imgjson.Imgjson.BBoxes[faceIndex].Y1), gocv.FontHersheyPlain, 1.2, textColor, 2)
 				window.IMShow(img)
 			        window.WaitKey(1)	
 			}
