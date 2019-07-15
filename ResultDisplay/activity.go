@@ -18,19 +18,39 @@ import (
 	"image"
 	"image/color"
 	"strings"
-	simplejson "github.com/bitly/go-simplejson"
+//	simplejson "github.com/bitly/go-simplejson"
 
 	"gocv.io/x/gocv"
 )
 
 var activityMd = activity.ToMetadata(&Input{})
 var imgpath string = ""
-var imgid
-var content string = ""
+var imgid = -1
+//var content string = ""
 var window = gocv.NewWindow("Output")
+var content  []string
 var textColor = color.RGBA{0, 255, 0, 0}
 //var pt = image.Pt(20, 20)
-var left, top, right, bottom int
+//var left, top, right, bottom int
+type Bbox struct {
+	Boxid int `json:"boxid"`
+	X1    int `json:"x1"`
+	Y1    int `json:"y1"`
+	X2    int `json:"x2"`
+	Y2    int `json:"y2"`
+}
+
+//json format of person recognition
+type imgJson struct {
+	Imgid   int    `json:"imgid"`
+	Imgpath string `json:"imgpath"`
+	Bboxes  []Bbox `json:"bboxes"`
+}
+
+type imgJsonR struct {
+	ImgJson imgJson  `json:"imgjson"`
+	Content  []string `json:"content"`
+}
 
 func init() {
 	_ = activity.Register(&Activity{})
@@ -62,133 +82,36 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	if err != nil {
 		return true, err
 	}
-
-	receiveString := input.Serial
-	res, err := simplejson.NewJson([]byte(receiveString))
-   
-        if err != nil {
-            fmt.Printf("%v\n", err)
-            return
-        }
+        imgjsonS := input.Serial
+	imgjsonS = strings.Replace(imgjsonS, "\\\"", "\"", -1)
+	imgjson := imgJsonR{}
+	json.Unmarshal([]byte(imgjsonS), &imgjson)
+	fmt.Println(imgjson)
 	
-	
-	framePath := res.Get("imgpath")
-	imgid_now:=res.Get("imgid")
+	framePath := imgjson.Imgjson.Imgpath
+	imgid_now := imgjson.Imgjson.Imgid
 	if (imgid_now!=imgid){
+		imgid=imgid_now
 		imgPath=framePath
-		content=message
+		content=imgjson.Content
 		
 	}
 	else{
-		content=strings.Join(content,",",message)
+		if exists(framePath) {
+			imgFace := gocv.IMRead(imgPath, gocv.IMReadColor)
+			for faceIndex := 1; faceIndex < len(imgjson.Imgjson.Content); faceIndex++ {
+				gocv.Rectangle(&imgFace,image.Pt(imgjson.Imgjson.BBoxes[faceIndex].X1,imgjson.Imgjson.BBoxes[faceIndex].Y1),image.Pt(imgjson.Imgjson.BBoxes[faceIndex].X2,imgjson.Imgjson.BBoxes[faceIndex].Y2),color.RGBA{R: 0, G: 255, B: 0, A: 100}, 1)
+				gocv.PutText(&imgFace, content+","+imgjson.Content[faceIndex], pt, gocv.FontHersheyPlain, 1.2, textColor, 2)
+				window.IMShow(img)
+			        window.WaitKey(1)	
+			}
+		
 	}
-	resultArr=res.Get("bbox")
-	// ***************************************
-
-	if exists(framePath) {
-		for faceIndex := 1; faceIndex < len(bbox); faceIndex++ {
-
-			img := gocv.IMRead(framePath, gocv.IMReadColor)
-			rectString := strings.Replace(faceArr[faceIndex], "(", "", -1)
-			rectString = strings.Replace(rectString, ")", "", -1)
-			rectString = strings.Replace(rectString, "-", ",", -1)
-			rectArr := strings.Split(rectString, ",")
-			left, err = strconv.Atoi(rectArr[0])
-			if err != nil {
-				return true, err
-			}
-			top, err = strconv.Atoi(rectArr[1])
-			if err != nil {
-				return true, err
-			}
-			right, err = strconv.Atoi(rectArr[2])
-			if err != nil {
-				return true, err
-			}
-			bottom, err = strconv.Atoi(rectArr[3])
-			if err != nil {
-				return true, err
-			}
-			left -= 20
-			top -= 60
-			right += 20
-			bottom += 20
-			if right > 1280 {
-				right = 1280
-			}
-			if bottom > 720 {
-				bottom = 720
-			}
-
-			//rect := image.Rect(left, top, right, bottom)
-			//imgFace := img.Region(rect)
-			//gocv.IMWrite("resource/temp/tmpAge.jpg", imgFace)
-			//imgName := "resource/temp/tmpAge.jpg"
-
-			/*imageFile, err := os.Open(imgName)
-			if err != nil {
-				log.Fatal(err)
-			}
-			var imgBuffer bytes.Buffer
-			io.Copy(&imgBuffer, imageFile)
-			imgtf, err := readImage(&imgBuffer, "jpg")
-			if err != nil {
-				log.Fatal("error making tensor: ", err)
-			}
-
-			result, err := model.Session.Run(
-				map[tf.Output]*tf.Tensor{
-					model.Graph.Operation("input_1").Output(0): imgtf,
-				},
-				[]tf.Output{
-					model.Graph.Operation("dense_2/Softmax").Output(0),
-				},
-				nil,
-			)
-
-			if err != nil {
-				log.Fatal(err)
-			}
-
-			if preds, ok := result[0].Value().([][]float32); ok {
-				// 		fmt.Println(preds[0])
-				// 		fmt.Println(reflect.TypeOf(preds[0]))
-				maxValueIndex = indexOfMax(preds[0])
-				age = ageStage[maxValueIndex]
-				// fmt.Println("Age: ", age)
-				fmt.Printf("\n %c[%d;%d;%dm%s%c[0m\n", 0x1B, 0, 0, 32, age, 0x1B)
-
-				imgFace := gocv.IMRead(imgName, gocv.IMReadColor)
-				gocv.PutText(&imgFace, content, pt, gocv.FontHersheyPlain, 1.2, textColor, 2)
-				window.IMShow(imgFace)
-				window.WaitKey(1)
-			
-			}*/
-			pt = image.Pt(left+20, top+20)
-                        //imgFace := gocv.IMRead(imgName, gocv.IMReadColor)
-			gocv.PutText(&img, content, pt, gocv.FontHersheyPlain, 1.2, textColor, 2)
-			window.IMShow(img)
-			window.WaitKey(1)
-			
-		}
-	}
-
-	// *******************************
-	// fmt.Printf("Input serial: %s\n", input.Serial)
-	//fmt.Printf("\n %c[%d;%d;%dmInput serial: %s%c[0m\n", 0x1B, 0, 0, 31, input.Serial, 0x1B)
-
-	//ctx.Logger().Debugf("Input serial: %s", input.Serial)
-	// 	ctx.Logger().Debugf("Age: %s", age)
-
+	
 	return true, nil
 }
 
-// add by Yongtao
-func checkErr(err error) {
-	if err != nil {
-		panic(err)
-	}
-}
+
 
 // determine if the file/folder of the given path exists
 func exists(path string) bool {
@@ -204,83 +127,7 @@ func exists(path string) bool {
 	return true
 }
 
-func readImage(imageBuffer *bytes.Buffer, imageFormat string) (*tf.Tensor, error) {
-	tensor, err := tf.NewTensor(imageBuffer.String())
-	if err != nil {
-		return nil, err
-	}
-	graph, input, output, err := transformGraph(imageFormat)
-	if err != nil {
-		return nil, err
-	}
-	session, err := tf.NewSession(graph, nil)
-	if err != nil {
-		return nil, err
-	}
-	defer session.Close()
-	normalized, err := session.Run(
-		map[tf.Output]*tf.Tensor{input: tensor},
-		[]tf.Output{output},
-		nil)
-	if err != nil {
-		return nil, err
-	}
-	return normalized[0], nil
-}
 
-func transformGraph(imageFormat string) (graph *tf.Graph, input,
-	output tf.Output, err error) {
-	const (
-		// H, W  = 224, 224
-		H, W  = 227, 227
-		Mean  = float32(117)
-		Scale = float32(1)
-	)
-	s := op.NewScope()
-	input = op.Placeholder(s, tf.String)
 
-	var decode tf.Output
-	switch imageFormat {
-	case "png":
-		decode = op.DecodePng(s, input, op.DecodePngChannels(3))
-	case "jpg",
-		"jpeg":
-		decode = op.DecodeJpeg(s, input, op.DecodeJpegChannels(3))
-	default:
-		return nil, tf.Output{}, tf.Output{},
-			fmt.Errorf("imageFormat not supported: %s", imageFormat)
-	}
 
-	output = op.Div(s,
-		op.Sub(s,
-			op.ResizeBilinear(s,
-				op.ExpandDims(s,
-					op.Cast(s, decode, tf.Float),
-					op.Const(s.SubScope("make_batch"), int32(0))),
-				op.Const(s.SubScope("size"), []int32{H, W})),
-			op.Const(s.SubScope("mean"), Mean)),
-		op.Const(s.SubScope("scale"), Scale))
-	graph, err = s.Finalize()
-	return graph, input, output, err
-}
 
-func indexOfMax(arr []float32) int {
-
-	//Get the maximum value in an array and get the index
-
-	//Declare an array
-	// var arr [5]int = [...]int{6, 45, 63, 16, 86}
-	//Suppose the first element is the maximum value and the index is 0.
-	maxVal := arr[0]
-	maxIndex := 0
-
-	for i := 1; i < len(arr); i++ {
-		//Cycle comparisons from the second element, exchange if found to be larger
-		if maxVal < arr[i] {
-			maxVal = arr[i]
-			maxIndex = i
-		}
-	}
-
-	return maxIndex
-}
