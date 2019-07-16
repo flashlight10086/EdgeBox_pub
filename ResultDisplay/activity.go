@@ -94,7 +94,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		imgPath=framePath
 		content=imgjson.Content
 		
-	},
+	}
 	else{
 		if exists(framePath) {
 			imgFace := gocv.IMRead(imgPath, gocv.IMReadColor)
@@ -105,6 +105,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			        window.WaitKey(1)	
 			}
 		
+	        }
 	}
 	
 	return true, nil
