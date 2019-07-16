@@ -1,18 +1,16 @@
 package sample
 
 import (
-	"strconv"
 
 	"github.com/project-flogo/core/activity"
 	//"github.com/project-flogo/core/data/metadata"
-	"bytes"
+
 	"fmt"
-	"io"
-	"log"
+
 	"os"
 	// 	"reflect"
 
-	
+	"encoding/json"
 
 	"image"
 	"image/color"
