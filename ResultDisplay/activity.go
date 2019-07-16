@@ -94,8 +94,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		imgPath=framePath
 		content=imgjson.Content
 		
-	}
-	else{
+	} else{
 		if exists(framePath) {
 			imgFace := gocv.IMRead(imgPath, gocv.IMReadColor)
 			for faceIndex := 1; faceIndex < len(imgjson.Imgjson.Content); faceIndex++ {
