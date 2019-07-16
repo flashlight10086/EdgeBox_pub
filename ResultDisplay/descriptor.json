@@ -1,0 +1,21 @@
+{
+  "name": "result-display-activity",
+  "type": "flogo:activity",
+  "version": "0.0.1",
+  "title": "Result Display",
+  "description": "Result Display via arriving message, using two by once",
+  "homepage": "https://github.com/flashlight10086/EdgeBox_pub/tree/master/ResultDisplay",
+  "settings": [
+ 
+  ],
+  "input": [
+    {
+      "name": "serial",
+      "type": "string",
+      "required": true
+    }
+  ],
+  "output": [
+    
+  ]
+}
