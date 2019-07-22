@@ -69,14 +69,14 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	x2:=3
 	y2:=3
 	imgjson:=imgJson{
-		Imgid: imgId
-		Imgpath: imgPath
+		Imgid: imgId,
+		Imgpath: imgPath,
 		Bboxs:[
 			Bbox{
-				Boxid:bboxid
-				X1:x1
-				Y1:y1
-				X2:x2
+				Boxid:bboxid,
+				X1:x1,
+				Y1:y1,
+				X2:x2,
 				Y2:y2
 			}
 		]	   
