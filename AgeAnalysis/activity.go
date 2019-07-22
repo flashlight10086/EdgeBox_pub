@@ -72,7 +72,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 				Y1:y1,
 				X2:x2,
 				Y2:y2,
-			        Result:"dummy-result"
+			        Result:"dummy-result",
 			      },
 			},	   
 	}
