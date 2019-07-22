@@ -63,26 +63,27 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	x2:=3
 	y2:=3
 	imgjson:=imgJson{
-		imgid: imgId
-		imgpath: imgPath
-		bboxs:[
-			Bbox{
-				boxid:Bboxid
-				X1:x1
-				Y1:y1
-				X2:x2
-				Y2:y2
-				Result:"dummy-result"
-			}
-		]	   
+		Imgid: imgId,
+		Imgpath: imgPath,
+		Bboxs:[]Bbox{
+			      Bbox{
+				Boxid:bboxid,
+				X1:x1,
+				Y1:y1,
+				X2:x2,
+				Y2:y2,
+			        Result:"dummy-result"
+			      },
+			},	   
 	}
 	if jsonString, err := json.Marshal(config); err == nil {
 		output := &Output{AgeJson: string(jsonString)}
 		err = ctx.SetOutputObject(output)
+		if err != nil {
+		   return true, err
+	        }
 	}
-	if err != nil {
-		return true, err
-	}
+
 
 	return true, nil
 }
