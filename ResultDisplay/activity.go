@@ -24,7 +24,7 @@ var activityMd = activity.ToMetadata(&Input{})
 var imgPath string = ""
 var imgid = -1
 //var content string = ""
-var window = gocv.NewWindow("Output")
+//var window = gocv.NewWindow("Output")
 var content  []string
 var textColor = color.RGBA{0, 255, 0, 0}
 //var pt = image.Pt(20, 20)
@@ -98,8 +98,8 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			for faceIndex := 1; faceIndex < len(imgjson.Content); faceIndex++ {
 				//gocv.Rectangle(&imgFace,image.Pt(imgjson.ImgJson.Bboxes[faceIndex].X1,imgjson.ImgJson.Bboxes[faceIndex].Y1),image.Pt(imgJson.ImgJson.Bboxes[faceIndex].X2,imgjson.ImgJson.Bboxes[faceIndex].Y2),color.RGBA{R: 0, G: 255, B: 0, A: 100}, 1)
 				gocv.PutText(&imgFace, content[faceIndex]+","+imgjson.Content[faceIndex], image.Pt(imgjson.ImgJson.Bboxes[faceIndex].X1,imgjson.ImgJson.Bboxes[faceIndex].Y1+20), gocv.FontHersheyPlain, 1.2, textColor, 2)
-				window.IMShow(imgFace)
-			        window.WaitKey(1)	
+			//	window.IMShow(imgFace)
+			 //       window.WaitKey(1)	
 			}
 		
 	        }
