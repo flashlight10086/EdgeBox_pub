@@ -76,7 +76,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			      },
 			},	   
 	}
-	if jsonString, err := json.Marshal(config); err == nil {
+	if jsonString, err := json.Marshal(imgjson); err == nil {
 		output := &Output{AgeJson: string(jsonString)}
 		err = ctx.SetOutputObject(output)
 		if err != nil {
