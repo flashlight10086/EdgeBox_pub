@@ -71,15 +71,15 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	imgjson:=imgJson{
 		Imgid: imgId,
 		Imgpath: imgPath,
-		Bboxs:[
-			Bbox{
+		Bboxs:[]Bbox{
+			      Bbox{
 				Boxid:bboxid,
 				X1:x1,
 				Y1:y1,
 				X2:x2,
 				Y2:y2,
-			}
-		]	   
+			      }
+			}	   
 	}
 	if jsonString, err := json.Marshal(config); err == nil {
            fmt.Println("================struct to json str==")
