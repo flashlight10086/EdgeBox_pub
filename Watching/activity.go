@@ -3,6 +3,7 @@ package sample
 import (
 	"github.com/project-flogo/core/activity"
 	"encoding/json"
+	"fmt"
 //	"github.com/project-flogo/core/data/metadata"
 )
 
@@ -81,11 +82,14 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			      },
 			},	   
 	}
-	if jsonString, err := json.Marshal(config); err == nil {
+	if jsonString, err := json.Marshal(imgjson); err == nil {
            fmt.Println("================struct to json str==")
            fmt.Println(string(jsonString))
 		output := &Output{Serial: string(jsonString)}
         }
+	if err != nil {
+		return true, err
+	}
 	//output := &Output{Serial: "1"}//should be serial of the record in the database
 	err = ctx.SetOutputObject(output)
 	if err != nil {
