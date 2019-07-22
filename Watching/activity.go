@@ -38,17 +38,17 @@ func (a *Activity) Metadata() *activity.Metadata {
 }
 //bounding box by form of x1,y1,x2,y2
 type Bbox struct {
-		boxid int `json:"boxid"`
-		x1 int `json:"x1"`
-		y1 int `json:"y1"`
-		x2 int `json:"x2"`
-		y2 int `json:"y2"`
+		Boxid int `json:"boxid"`
+		X1 int `json:"x1"`
+		Y1 int `json:"y1"`
+		X2 int `json:"x2"`
+		Y2 int `json:"y2"`
 	}
 //json format of person recognition
 type imgJson struct {
-	imgid   int    `json:"imgid"`
-	imgpath string `json:"imgpath"`
-	bboxs    []Bbox `json:"bbox"`
+	Imgid   int    `json:"imgid"`
+	Imgpath string `json:"imgpath"`
+	Bboxs    []Bbox `json:"bbox"`
 }
 
 // Eval implements api.Activity.Eval - Logs the Message
@@ -63,21 +63,21 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 //dummy json generation here
 	imgId:=215
 	imgPath:="/home/test.jpg/"
-	Bboxid:=0
-	X1:=1
-	Y1:=1
-	X2:=3
-	Y2:=3
+	bboxid:=0
+	x1:=1
+	y1:=1
+	x2:=3
+	y2:=3
 	imgjson:=imgJson{
-		imgid: imgId
-		imgpath: imgPath
-		bboxs:[
+		Imgid: imgId
+		Imgpath: imgPath
+		Bboxs:[
 			Bbox{
-				boxid:Bboxid
-				x1:X1
-				y1:Y1
-				x2:X2
-				y2:Y2
+				Boxid:bboxid
+				X1:x1
+				Y1:y1
+				X2:x2
+				Y2:y2
 			}
 		]	   
 	}
