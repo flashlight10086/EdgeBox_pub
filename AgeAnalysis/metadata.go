@@ -2,23 +2,24 @@ package sample
 
 import "github.com/project-flogo/core/data/coerce"
 
-type Settings struct {
-	AgeAttr string `md:"ageAttr,required"`
-}
 
 type Input struct {
 	Serial string `md:"serial,required"`
+	AgeAttr string `md:"ageAttr,required"`
 }
 
 func (r *Input) FromMap(values map[string]interface{}) error {
 	strVal, _ := coerce.ToString(values["serial"])
 	r.Serial = strVal
+	strVal, _ := coerce.ToString(values["ageAttr"])
+	r.AgeAttr = strVal
 	return nil
 }
 
 func (r *Input) ToMap() map[string]interface{} {
 	return map[string]interface{}{
 		"serial": r.Serial,
+		"ageAttr": r.AgeAttr,
 	}
 }
 
