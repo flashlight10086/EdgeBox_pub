@@ -2,6 +2,9 @@ package sample
 
 import "github.com/project-flogo/core/data/coerce"
 
+type Settings struct {
+	AgeAttr string `md:"ageAttr,required"`
+}
 
 type Input struct {
 	Serial string `md:"serial,required"`
