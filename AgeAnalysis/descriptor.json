@@ -6,15 +6,15 @@
   "description": "Age Analysis Activity",
   "homepage": "https://github.com/flashlight10086/EdgeBox_pub/tree/master/AgeAnalysis",
   "settings": [
-    {
-      "name": "ageAttr",
-      "type": "string",
-      "required": true
-    }
   ],
   "input": [
     {
       "name": "serial",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "ageAttr",
       "type": "string",
       "required": true
     }
