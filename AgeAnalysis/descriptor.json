@@ -9,7 +9,7 @@
     {
       "name": "ageAttr",
       "type": "string",
-      "required": false
+      "required": true
     }
   ],
   "input": [
